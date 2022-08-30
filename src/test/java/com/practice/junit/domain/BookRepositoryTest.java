@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -17,12 +18,14 @@ class BookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
 
+    private Book book;
+
     @BeforeEach
     void readyData() {
         String title = "Spring Boot";
         String author = "user";
 
-        Book book = Book.builder()
+        book = Book.builder()
                 .title(title)
                 .author(author)
                 .build();
@@ -73,6 +76,18 @@ class BookRepositoryTest {
         //then
         assertThat(book.getTitle()).isEqualTo("Spring Boot");
         assertThat(book.getAuthor()).isEqualTo("user");
+    }
+
+    @DisplayName("책 삭제 테스트")
+    @Test
+    void deleteTest() {
+        //given
+        //when
+        bookRepository.delete(book);
+        Optional<Book> optionalBook = bookRepository.findById(book.getId());
+
+        //then
+        assertThat(optionalBook).isEmpty();
     }
 
 }
