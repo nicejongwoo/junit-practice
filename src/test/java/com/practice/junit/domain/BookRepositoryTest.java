@@ -69,13 +69,16 @@ class BookRepositoryTest {
     @DisplayName("책 한권 조회 테스트")
     @Test
     void findByIdTest() {
+        // @Transactional 을 통해 초기화가 될때, primary key 의 auto_increment 정보는 초기화가 안됨.
+        // 메서드 전체 테스트 실행 시 특정 id 값을 사용하는 테스트의 경우에는 주의 필요
+
         //given
         //when
-        Book book = bookRepository.findById(1L).get();
+        Book foundBook = bookRepository.findById(book.getId()).get();
 
         //then
-        assertThat(book.getTitle()).isEqualTo("Spring Boot");
-        assertThat(book.getAuthor()).isEqualTo("user");
+        assertThat(foundBook.getTitle()).isEqualTo("Spring Boot");
+        assertThat(foundBook.getAuthor()).isEqualTo("user");
     }
 
     @DisplayName("책 삭제 테스트")
