@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class BookService {
@@ -22,6 +25,13 @@ public class BookService {
     }
 
     //책목록
+    public List<BookResponse> listBook() {
+        return bookRepository.findAll()
+                .stream()
+                .map(new BookResponse()::toDto)
+                .collect(Collectors.toList());
+    }
+
     //책상세보기
     //책삭제
     //책수정
