@@ -1,8 +1,10 @@
 package com.practice.junit.web.dto;
 
 import com.practice.junit.domain.Book;
+import lombok.Getter;
 import lombok.Setter;
 
+@Getter
 @Setter
 public class BookSaveRequest {
 
