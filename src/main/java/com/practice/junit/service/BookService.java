@@ -2,6 +2,7 @@ package com.practice.junit.service;
 
 import com.practice.junit.domain.Book;
 import com.practice.junit.domain.BookRepository;
+import com.practice.junit.util.MailSender;
 import com.practice.junit.web.dto.BookResponse;
 import com.practice.junit.web.dto.BookSaveRequest;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +18,17 @@ import java.util.stream.Collectors;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final MailSender mailSender;
 
     //책등록
     @Transactional(rollbackFor = RuntimeException.class)
     public BookResponse registerBook(BookSaveRequest request) {
         Book book = bookRepository.save(request.toEntity());
+        if (book != null) {
+            if (!mailSender.send()) {
+                throw new RuntimeException("메일전송 실패");
+            }
+        }
         return new BookResponse().toDto(book);
     }
 
