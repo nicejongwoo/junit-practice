@@ -29,14 +29,14 @@ public class BookService {
                 throw new RuntimeException("메일전송 실패");
             }
         }
-        return new BookResponse().toDto(book);
+        return book.toDto();
     }
 
     //책목록
     public List<BookResponse> listBook() {
         return bookRepository.findAll()
                 .stream()
-                .map((book) -> new BookResponse().toDto(book))
+                .map(Book::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -44,7 +44,7 @@ public class BookService {
     public BookResponse getOneBook(Long id) {
         Optional<Book> book = bookRepository.findById(id);
         if (book.isPresent()) {
-            return new BookResponse().toDto(book.get());
+            return book.get().toDto();
         } else {
             throw new RuntimeException("Not Found Book");
         }

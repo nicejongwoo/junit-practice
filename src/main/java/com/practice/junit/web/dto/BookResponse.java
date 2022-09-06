@@ -1,6 +1,7 @@
 package com.practice.junit.web.dto;
 
 import com.practice.junit.domain.Book;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,11 +12,10 @@ public class BookResponse {
     private String title;
     private String author;
 
-    public BookResponse toDto(Book book) {
-        this.id = book.getId();
-        this.title = book.getTitle();
-        this.author = book.getAuthor();
-
-        return this;
+    @Builder
+    public BookResponse(Long id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
     }
 }

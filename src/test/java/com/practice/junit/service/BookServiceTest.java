@@ -45,8 +45,8 @@ class BookServiceTest {
         BookResponse bookResponse = bookService.registerBook(request);
 
         //then
-        assertThat(request.getTitle()).isEqualTo(bookResponse.getTitle());
-        assertThat(request.getAuthor()).isEqualTo(bookResponse.getTitle());
+        assertThat(bookResponse.getTitle()).isEqualTo(request.getTitle());
+        assertThat(bookResponse.getAuthor()).isEqualTo(request.getAuthor());
 
     }
 
