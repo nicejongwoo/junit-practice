@@ -1,5 +1,6 @@
 package com.practice.junit.service;
 
+import com.practice.junit.domain.Book;
 import com.practice.junit.domain.BookRepository;
 import com.practice.junit.util.MailSender;
 import com.practice.junit.web.dto.BookResponse;
@@ -9,6 +10,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -44,6 +48,25 @@ class BookServiceTest {
         assertThat(request.getTitle()).isEqualTo(bookResponse.getTitle());
         assertThat(request.getAuthor()).isEqualTo(bookResponse.getTitle());
 
+    }
+
+    @Test
+    void listBookTest() {
+        //given
+
+        //stub
+        List<Book> books = Arrays.asList(
+                new Book(1L, "test1", "user1"),
+                new Book(2L, "test2", "user2")
+        );
+        when(bookRepository.findAll()).thenReturn(books);
+
+        //when
+        List<BookResponse> bookResponses = bookService.listBook();
+
+        //then
+        assertThat(bookResponses.get(0).getTitle()).isEqualTo("test1");
+        assertThat(bookResponses.get(1).getTitle()).isEqualTo("test2");
     }
 
 }
