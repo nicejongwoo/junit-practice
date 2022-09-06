@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -67,6 +68,24 @@ class BookServiceTest {
         //then
         assertThat(bookResponses.get(0).getTitle()).isEqualTo("test1");
         assertThat(bookResponses.get(1).getTitle()).isEqualTo("test2");
+    }
+
+    @Test
+    void getOneBookTest() {
+        //given
+        Long id = 1L;
+        Book book = new Book(1L, "test", "user");
+        Optional<Book> optionalBook = Optional.of(book);
+
+        //stub
+        when(bookRepository.findById(id)).thenReturn(optionalBook);
+
+        //when
+        BookResponse response = bookService.getOneBook(id);
+
+        //then
+        assertThat(response.getTitle()).isEqualTo(book.getTitle());
+        assertThat(response.getAuthor()).isEqualTo(book.getAuthor());
     }
 
 }
