@@ -58,10 +58,12 @@ public class BookService {
 
     //책수정
     @Transactional(rollbackFor = RuntimeException.class)
-    public void updateBook(Long id, BookSaveRequest request) {
+    public BookResponse updateBook(Long id, BookSaveRequest request) {
         Optional<Book> book = bookRepository.findById(id);
         if (book.isPresent()) {
-            book.get().update(request.getTitle(), request.getAuthor());
+            Book response = book.get();
+            response.update(request.getTitle(), request.getAuthor());
+            return response.toDto();
         } else {
             throw new RuntimeException("Not Found Book");
         }
